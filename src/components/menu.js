@@ -34,6 +34,7 @@ const createMenuTemplate = () => {
 };
 
 export default class SiteMenu extends AbstractComponent {
+
   getTemplate() {
     return createMenuTemplate();
   }

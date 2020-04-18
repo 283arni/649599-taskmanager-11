@@ -28,6 +28,7 @@ const createRepeatingDaysMarkup = (days, repeatingDays) => {
   return days
     .map((day, index) => {
       const isChecked = repeatingDays[day];
+
       return (
         `<input
           class="visually-hidden card__repeat-day-input"
@@ -143,6 +144,7 @@ export default class TaskEdit extends AbstractComponent {
   }
 
   setSubmitHandler(handler) {
+
     this.getElement().querySelector(`form`)
       .addEventListener(`submit`, handler);
   }
