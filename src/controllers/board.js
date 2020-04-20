@@ -38,6 +38,7 @@ const renderTask = (taskListElement, task) => {
 
   taskEditComponent.setSubmitHandler((evt) => {
     evt.preventDefault();
+
     replaceEditToTask();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
@@ -115,7 +116,6 @@ export default class BoardController {
     render(container, this._tasksComponent, RenderPosition.BEFOREEND);
 
     const taskListElement = this._tasksComponent.getElement();
-
     let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
     renderTasks(taskListElement, tasks.slice(0, showingTasksCount));
