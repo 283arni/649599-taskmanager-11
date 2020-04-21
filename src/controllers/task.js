@@ -65,14 +65,14 @@ export default class TaskController {
     }
   }
 
-  _replaceTaskToEdit() {
+  _replaceEditToTask() {
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     this._taskEditComponent.reset();
     replace(this._taskComponent, this._taskEditComponent);
     this._mode = Mode.DEFAULT;
   }
 
-  _replaceEditToTask() {
+  _replaceTaskToEdit() {
     this._onViewChange();
     replace(this._taskEditComponent, this._taskComponent);
     this._mode = Mode.EDIT;
