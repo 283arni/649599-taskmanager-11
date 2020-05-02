@@ -22,7 +22,6 @@ const tasks = generateTasks(QUANTITY_TASKS);
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
 
-render(header, new SiteMenuComponent(), RenderPosition.BEFOREEND);
 const filterController = new FilterController(main, tasksModel);
 filterController.render();
 
@@ -38,6 +37,7 @@ const dateFrom = (() => {
   d.setDate(d.getDate() - 7);
   return d;
 })();
+
 const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 render(main, statisticsComponent, RenderPosition.BEFOREEND);
 statisticsComponent.hide();
@@ -57,6 +57,8 @@ siteMenuComponent.setOnChange((menuItem) => {
     case MenuItem.TASKS:
       statisticsComponent.hide();
       boardController.show();
+      boardController.setActiveSort();
+      boardController._onSortTypeChange(`default`);
       break;
   }
 });

@@ -202,4 +202,8 @@ export default class BoardController {
       remove(this._loadMoreButtonComponent);
     }
   }
+
+  setActiveSort() {
+    this._sortComponent._currenSortType = SortType.DEFAULT;
+  }
 }
