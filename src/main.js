@@ -1,35 +1,24 @@
+import API from "./api.js";
 import BoardComponent from "./components/board";
 import BoardController from "./controllers/board.js";
 import SiteMenuComponent, {MenuItem} from "./components/menu.js";
 import StatisticsComponent from "./components/statistics.js";
 import FilterController from "./controllers/filter.js";
-import {generateTasks} from './mock/task';
 import {render, RenderPosition} from "./utils/render.js";
 import TasksModel from "./models/tasks.js";
-
-
-const QUANTITY_TASKS = 22;
+const AUTHORIZATION = `Basic dXNlck45wYXNzd29yZAo=`;
+const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 
 
 const main = document.querySelector(`.main`);
 const header = main.querySelector(`.main__control`);
+const api = new API(END_POINT, AUTHORIZATION);
+
 const siteMenuComponent = new SiteMenuComponent();
-
-render(header, siteMenuComponent, RenderPosition.BEFOREEND);
-
-
-const tasks = generateTasks(QUANTITY_TASKS);
 const tasksModel = new TasksModel();
-tasksModel.setTasks(tasks);
-
 const filterController = new FilterController(main, tasksModel);
-filterController.render();
-
 const boardComponent = new BoardComponent();
-render(main, boardComponent, RenderPosition.BEFOREEND);
-
-const boardController = new BoardController(boardComponent, tasksModel);
-boardController.render();
+const boardController = new BoardController(boardComponent, tasksModel, api);
 
 const dateTo = new Date();
 const dateFrom = (() => {
@@ -39,6 +28,12 @@ const dateFrom = (() => {
 })();
 
 const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
+
+render(header, siteMenuComponent, RenderPosition.BEFOREEND);
+filterController.render();
+
+render(main, boardComponent, RenderPosition.BEFOREEND);
+
 render(main, statisticsComponent, RenderPosition.BEFOREEND);
 statisticsComponent.hide();
 
@@ -62,3 +57,9 @@ siteMenuComponent.setOnChange((menuItem) => {
       break;
   }
 });
+
+api.getTasks()
+  .then((tasks) => {
+    tasksModel.setTasks(tasks);
+    boardController.render();
+  });
